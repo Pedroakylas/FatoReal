@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="logo.png">
+  <title>Fato Real — Detector de Fake News (Sprint 1)</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-brand">
+        <img src="logo.png" style="width:3rem; height:3rem;">
+        <span>Fato Real</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-logo-wrap">
+        <img src="logo.png" style="width:7rem; height:7rem;">
+      </div>
+      <h1>Chega de <span>Fake News!</span></h1>
+      <p>Verifique se uma afirmação é verdadeira ou falsa em segundos usando o nosso motor de credibilidade.</p>
+
+      <!-- SEARCH CARD (Sprint 1: apenas verificação de texto) -->
+      <div class="search-card">
+        <div class="search-tabs">
+          <button class="search-tab active" id="tabText">
+            <i class="fa-solid fa-align-left"></i> Verificar Texto
+          </button>
+        </div>
+
+        <div id="inputText">
+          <div class="search-input-group">
+            <textarea class="search-input" id="textInput"
+              placeholder="Cole aqui o texto ou afirmação que deseja verificar... Ex: Luísa Sonza morreu em acidente"
+              maxlength="2000" oninput="updateCounter()"></textarea>
+          </div>
+          <div class="char-counter" id="charCounter">0 / 2000</div>
+        </div>
+
+        <div id="alertBox"></div>
+
+        <button class="btn btn-primary btn-xl w-full" id="btnVerify" onclick="verify()">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          Verificar Agora
+        </button>
+
+        <p class="search-hint">
+          <i class="fa-solid fa-shield-halved"></i>
+          Sem necessidade de cadastro — verificação gratuita!
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="main-content">
+    <div class="container">
+      <h2 class="section-title" style="text-align:center;">Como funciona? (Sprint 1)</h2>
+      <p class="section-subtitle" style="text-align:center;">
+        Nesta primeira entrega, o sistema já verifica textos e afirmações.
+      </p>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📝</div>
+          <h3>1. Cole o texto</h3>
+          <p>Insira a notícia suspeita, seja um texto copiado do WhatsApp ou uma afirmação qualquer.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <h3>2. Motor de credibilidade analisa</h3>
+          <p>O backend busca a informação em fontes jornalísticas e calcula um score de credibilidade.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">✅</div>
+          <h3>3. Receba o resultado</h3>
+          <p>Veja o veredicto com explicação e as fontes usadas na análise.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <i class="fa-solid fa-magnifying-glass" style="font-size:1.5rem; color:var(--primary)"></i>
+        <span>Fato Real</span>
+      </div>
+      <p>Projeto acadêmico de combate à desinformação — Sprint 1</p>
+      <p style="margin-top:8px; font-size:0.8rem;">© 2026 Fato Real — Todos os direitos reservados</p>
+    </div>
+  </footer>
+
+  <!-- LOADING OVERLAY -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-card">
+      <div class="loading-spinner"></div>
+      <h3>Analisando o texto...</h3>
+      <p style="color:#6b7280; font-size:0.9rem;">Buscando fontes e calculando credibilidade</p>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>
