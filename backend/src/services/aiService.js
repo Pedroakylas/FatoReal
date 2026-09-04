@@ -1,9 +1,6 @@
 require('dotenv').config();
 const axios = require('axios');
-
-// ─────────────────────────────────────────────
 // CONFIGURAÇÕES
-// ─────────────────────────────────────────────
 
 /**
  * Fontes confiáveis brasileiras com peso de credibilidade (0–1).
@@ -23,22 +20,22 @@ const TRUSTED_SOURCES = {
   'Terra':          0.75,
   'Metrópoles':     0.8,
   'Correio Braziliense': 0.9,
-  'Agência Brasil': 1.0,   // fonte oficial
+  'Agência Brasil': 1.0,   
   'Valor Econômico':1.0,
   'Exame':          0.85,
   'InfoMoney':      0.85,
-  // Agências internacionais (PT)
+ 
   'Reuters':        1.0,
   'AFP':            1.0,
   'Associated Press': 1.0,
-  // Fact-checkers
+  
   'Lupa':           1.0,
   'Aos Fatos':      1.0,
   'E-farsas':       0.9,
   'Boatos.org':     0.85,
 };
 
-/** Domínios de baixa confiabilidade — penalizam o score */
+//Domínios de baixa confiabilidade — penalizam o score
 const UNTRUSTED_DOMAINS = [
   'blogspot', 'wordpress', 'medium.com', 'tumblr',
   'reddit', 'twitter', 'facebook', 'instagram', 'tiktok',
@@ -52,9 +49,8 @@ const RECENCY_WINDOWS = {
   OLD:          180, // > 180 dias → penalidade -10
 };
 
-// ─────────────────────────────────────────────
+
 // HELPERS
-// ─────────────────────────────────────────────
 
 /** Retorna o peso de confiança de uma fonte (0.3 a 1.0) */
 const getSourceWeight = (sourceName = '', articleUrl = '') => {
@@ -76,7 +72,7 @@ const getArticleAgeDays = (publishedAt) => {
   return diff / (1000 * 60 * 60 * 24);
 };
 
-/** Extrai palavras-chave relevantes de um texto (remove stopwords comuns) */
+// Extrai palavras-chave relevantes de um texto
 const STOPWORDS = new Set([
   'de','a','o','e','do','da','em','para','com','que','não','um','uma',
   'os','as','se','na','no','por','mais','foi','ao','mas','ou','já',
@@ -98,7 +94,7 @@ const extractKeywords = (text, maxWords = 8) => {
 /**
  * Gera variações de query para aumentar recall.
  * Injeta contexto BR em todas as queries para simular filtro country=br,
- * já que o endpoint /v2/everything não suporta o parâmetro country diretamente.
+ * já que o endpoint /v2/everything não suporta o parâmetro country diretamente
  */
 const BR_CONTEXT = '(brasil OR brazil)';
 
@@ -125,13 +121,13 @@ const buildQueries = (rawContent, inputType) => {
   return queries;
 };
 
-// ─────────────────────────────────────────────
-// NEWS API
-// ─────────────────────────────────────────────
 
-/**
- * Faz uma única chamada à News API com filtros PT/BR
- */
+// NEWS API
+
+
+
+ //Faz uma única chamada à News API com filtros PT/BR
+ 
 const fetchFromNewsAPI = async (query) => {
   const response = await axios.get('https://newsapi.org/v2/everything', {
     params: {
@@ -179,9 +175,9 @@ const searchSources = async (queries) => {
   return { articles, totalResults: maxTotal };
 };
 
-// ─────────────────────────────────────────────
+
 // SCORING
-// ─────────────────────────────────────────────
+
 
 /**
  * Calcula um score de credibilidade (0–100) baseado em:
@@ -220,13 +216,13 @@ const calculateCredibilityScore = (articles) => {
   return Math.min(100, Math.round(rawScore));
 };
 
-// ─────────────────────────────────────────────
-// VEREDITO
-// ─────────────────────────────────────────────
 
-/**
- * Converte o score em veredito + explicação detalhada
- */
+// VEREDITO
+
+
+
+ //Converte o score em veredito + explicação detalhada
+
 const determineVerdict = (score, articles, totalResults) => {
   const uniqueSources   = [...new Set(articles.map(a => a.source?.name || 'Desconhecido'))];
   const trustedPresent  = uniqueSources.filter(s => TRUSTED_SOURCES[s]);
@@ -265,9 +261,9 @@ const determineVerdict = (score, articles, totalResults) => {
   return { verdict, confidenceScore, explanation, uniqueSources, trustedPresent };
 };
 
-// ─────────────────────────────────────────────
+
 // ENTRY POINT
-// ─────────────────────────────────────────────
+
 
 /**
  * Verifica uma notícia/texto usando a News API com lógica aprimorada.

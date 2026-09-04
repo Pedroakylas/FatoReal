@@ -1,10 +1,6 @@
 const { checkWithAI } = require('../services/aiService');
 
-/**
- * Sprint 1: verifica um texto/afirmação usando o motor de credibilidade
- * (aiService.js + News API). Ainda não há banco de dados, então o
- * resultado não é salvo — apenas devolvido diretamente ao frontend.
- */
+// faz a verificação dos texto, mas não os salva ainda
 const checkText = async (req, res) => {
   try {
     const { text } = req.body;
@@ -19,7 +15,7 @@ const checkText = async (req, res) => {
 
     const result = await checkWithAI(text, 'text');
 
-    // Sem banco de dados ainda: gera um id temporário só para a tela de resultado.
+    //gera um id temporário só para a tela de resultado, pois não tem banco de dados ainda
     const shareId = Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
 
     return res.json({
